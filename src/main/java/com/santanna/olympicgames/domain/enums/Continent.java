@@ -1,4 +1,5 @@
 package com.santanna.olympicgames.domain.enums;
 
-public class Continent {
+public enum Continent {
+    AFRICA, ANTARCTICA, ASIA, EUROPE, NORTH_AMERICA, SOUTH_AMERICA, AUSTRALIAOCEANIA;
 }
