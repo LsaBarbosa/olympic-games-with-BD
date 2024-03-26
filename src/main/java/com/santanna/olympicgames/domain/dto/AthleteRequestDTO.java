@@ -6,9 +6,9 @@ import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Gender;
 import com.santanna.olympicgames.domain.enums.Sport;
 
-public record AthleteRequestDTO(String name, Integer weight, double height, int age, Continent continent, Country country, Gender gender, Sport sport) {
+public record AthleteRequestDTO(Long id,String name, Integer weight, double height, int age, Continent continent, Country country, Gender gender, Sport sport) {
     public AthleteRequestDTO(Athlete athlete) {
-        this(athlete.getName(),athlete.getWeight(),athlete.getHeight(),athlete.getAge(),athlete.getContinent(),athlete.getCountry(),athlete.getGender(),athlete.getSport());
+        this(athlete.getId(),athlete.getName(),athlete.getWeight(),athlete.getHeight(),athlete.getAge(),athlete.getContinent(),athlete.getCountry(),athlete.getGender(),athlete.getSport());
     }
 
 }
