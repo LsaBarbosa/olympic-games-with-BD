@@ -1,6 +1,7 @@
 package com.santanna.olympicgames.domain.entity;
 
 import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
+import com.santanna.olympicgames.domain.dto.AthleteResponseDTO;
 import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
 import com.santanna.olympicgames.domain.enums.Continent;
 import com.santanna.olympicgames.domain.enums.Country;
@@ -11,16 +12,16 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "tb_athlete")
-@Entity
+@Entity(name = "Athlete")
 public class Athlete {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int weight;
@@ -35,32 +36,51 @@ public class Athlete {
     @Enumerated(EnumType.STRING)
     private Sport sport;
 
-    public Athlete (AthleteRequestDTO dto){
-        this.name=dto.name();
-        this.age=dto.age();
-        this.continent=dto.continent();
-        this.country=dto.country();
-        this.gender=dto.gender();
-        this.sport=dto.sport();
-        this.weight=dto.weight();
-        this.height=dto.height();
+    public Athlete(AthleteRequestDTO dto) {
+        this.id = dto.id();
+        this.name = dto.name();
+        this.age = dto.age();
+        this.continent = dto.continent();
+        this.country = dto.country();
+        this.gender = dto.gender();
+        this.sport = dto.sport();
+        this.weight = dto.weight();
+        this.height = dto.height();
 
     }
 
-    public void updateAthleteData(UpdateAthleteDTO data){
-        if (data.name() != null){
+    public Athlete(AthleteResponseDTO dto) {
+        this.name = dto.name();
+        this.age = dto.age();
+        this.continent = dto.continent();
+        this.country = dto.country();
+        this.gender = dto.gender();
+        this.sport = dto.sport();
+        this.weight = dto.weight();
+        this.height = dto.height();
+
+    }
+
+    public void updateAthleteData(UpdateAthleteDTO data) {
+        if (data.name() != null) {
             this.name = data.name();
-        } if (data.age() != null){
+        }
+        if (data.age() != null) {
             this.age = data.age();
-        } if (!Double.isNaN(data.height())){
+        }
+        if (!Double.isNaN(data.height())) {
             this.height = data.height();
-        } if (data.weight() != null){
+        }
+        if (data.weight() != null) {
             this.weight = data.weight();
-        } if (data.continent() != null){
+        }
+        if (data.continent() != null) {
             this.continent = data.continent();
-        } if (data.country() != null){
+        }
+        if (data.country() != null) {
             this.country = data.country();
-        } if (data.name() != null){
+        }
+        if (data.name() != null) {
             this.sport = data.sport();
         }
     }

@@ -1,6 +1,7 @@
 package com.santanna.olympicgames.service;
 
 import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
+import com.santanna.olympicgames.domain.dto.AthleteResponseDTO;
 import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
 import com.santanna.olympicgames.domain.entity.Athlete;
 import com.santanna.olympicgames.repository.AthleteRepository;
@@ -24,18 +25,19 @@ public class AthleteService {
         return new AthleteRequestDTO(athlete);
     }
 
-    public AthleteRequestDTO createAthlete(AthleteRequestDTO athleteDTO){
+    public AthleteResponseDTO createAthlete(AthleteRequestDTO athleteDTO){
         var athlete = new Athlete(athleteDTO);
         athleteRepository.save(athlete);
-        return new AthleteRequestDTO(athlete);
+
+        return new AthleteResponseDTO(athlete);
     }
 
-    public AthleteRequestDTO updateAthlete(UpdateAthleteDTO athleteDTO){
+    public AthleteResponseDTO updateAthlete(UpdateAthleteDTO athleteDTO){
         var athlete = athleteRepository.findById(athleteDTO.id())
                 .orElseThrow(()-> new RuntimeException("Athlete not found"));
         athlete.updateAthleteData(athleteDTO);
         athleteRepository.save(athlete);
-        return new AthleteRequestDTO(athlete);
+        return new AthleteResponseDTO(athlete);
     }
 
     public void deleteAthlete(Long id){
