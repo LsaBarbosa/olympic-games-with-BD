@@ -8,6 +8,9 @@ import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Gender;
 import com.santanna.olympicgames.domain.enums.Sport;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,10 +26,20 @@ public class Athlete {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @NotNull
+    @Size(min = 5, max = 65)
     private String name;
+
+    @Min(40)
     private int weight;
+
+    @Min(140)
     private double height;
+
+    @Min(14)
     private Integer age;
+
     @Enumerated(EnumType.STRING)
     private Continent continent;
     @Enumerated(EnumType.STRING)

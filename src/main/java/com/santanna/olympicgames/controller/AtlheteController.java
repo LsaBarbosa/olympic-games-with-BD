@@ -6,19 +6,16 @@ import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
 import com.santanna.olympicgames.exceptions.ValidationException;
 import com.santanna.olympicgames.service.AthleteService;
 import jakarta.transaction.Transactional;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.Collection;
-import java.util.Collections;
 
 @RestController
 @RequestMapping("/atlhetes")
@@ -39,40 +36,44 @@ public class AtlheteController {
             AthleteRequestDTO athlete = athleteService.getAthleteById(id);
             return ResponseEntity.ok(athlete);
         } catch (ValidationException exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            return ResponseEntity.notFound().build();
         }
     }
 
     @PostMapping
-    @Transactional
-    public ResponseEntity<AthleteResponseDTO> creatAthlete(@RequestBody AthleteRequestDTO athleteDTO, UriComponentsBuilder uriBuilder) {
+
+    public ResponseEntity<AthleteResponseDTO> creatAthlete(@RequestBody @Valid AthleteRequestDTO athleteDTO, UriComponentsBuilder uriBuilder) {
         try {
             AthleteResponseDTO athlete = athleteService.createAthlete(athleteDTO);
             String url = "/athletes/{id}";
             URI uri = uriBuilder.path(url).buildAndExpand(athleteDTO.id()).toUri();
             return ResponseEntity.created(uri).body(athlete);
-
         } catch (ValidationException ex) {
             return ResponseEntity.badRequest().build();
+
         }
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<?> updateDataAthlete(@RequestBody UpdateAthleteDTO athleteDTO) {
+    public ResponseEntity<AthleteResponseDTO> updateDataAthlete(@RequestBody @Valid UpdateAthleteDTO athleteDTO) {
         try {
             athleteService.updateAthlete(athleteDTO);
             return ResponseEntity.ok().build();
         } catch (ValidationException exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<AthleteRequestDTO> deleteAthlete(@PathVariable Long id) {
+    try{
         athleteService.deleteAthlete(id);
         return ResponseEntity.noContent().build();
+    }catch (ValidationException ex){
+        return ResponseEntity.notFound().build();
+    }
     }
 }
 
