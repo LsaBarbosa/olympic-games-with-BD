@@ -2,7 +2,9 @@ package com.santanna.olympicgames.controller;
 
 import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
 import com.santanna.olympicgames.domain.dto.AthleteResponseDTO;
+import com.santanna.olympicgames.domain.dto.SportsDTO;
 import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
+import com.santanna.olympicgames.domain.enums.Sport;
 import com.santanna.olympicgames.exceptions.ValidationException;
 import com.santanna.olympicgames.service.AthleteService;
 import jakarta.transaction.Transactional;
@@ -10,12 +12,12 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/atlhetes")
@@ -37,6 +39,16 @@ public class AtlheteController {
             return ResponseEntity.ok(athlete);
         } catch (ValidationException exception) {
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/sport/all")
+    public ResponseEntity<List<SportsDTO>> getAthletesBySport(@RequestParam Sport sport) {
+        try {
+            List<SportsDTO> athletes = athleteService.findAthletesBySport(sport);
+            return ResponseEntity.ok(athletes);
+        } catch (ValidationException exception) {
+            return ResponseEntity.badRequest().build();
         }
     }
 
@@ -68,12 +80,12 @@ public class AtlheteController {
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<AthleteRequestDTO> deleteAthlete(@PathVariable Long id) {
-    try{
-        athleteService.deleteAthlete(id);
-        return ResponseEntity.noContent().build();
-    }catch (ValidationException ex){
-        return ResponseEntity.notFound().build();
-    }
+        try {
+            athleteService.deleteAthlete(id);
+            return ResponseEntity.noContent().build();
+        } catch (ValidationException ex) {
+            return ResponseEntity.notFound().build();
+        }
     }
 }
 

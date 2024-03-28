@@ -1,8 +1,6 @@
 package com.santanna.olympicgames.domain.entity;
 
-import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
-import com.santanna.olympicgames.domain.dto.AthleteResponseDTO;
-import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
+import com.santanna.olympicgames.domain.dto.*;
 import com.santanna.olympicgames.domain.enums.Continent;
 import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Gender;
@@ -15,6 +13,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -62,6 +62,12 @@ public class Athlete {
 
     }
 
+    public Athlete(CountryAndSportsDTO dto) {
+        this.country = dto.country();
+        this.sport = dto.sport();
+
+    }
+
     public Athlete(AthleteResponseDTO dto) {
         this.name = dto.name();
         this.age = dto.age();
@@ -72,6 +78,13 @@ public class Athlete {
         this.weight = dto.weight();
         this.height = dto.height();
 
+    }
+
+    public Athlete(SportsDTO dto) {
+        this.name = dto.name();
+        this.country = dto.country();
+        this.gender = dto.gender();
+        this.sport = dto.sport();
     }
 
     public void updateAthleteData(UpdateAthleteDTO data) {
