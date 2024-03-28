@@ -1,9 +1,7 @@
 package com.santanna.olympicgames.controller;
 
-import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
-import com.santanna.olympicgames.domain.dto.AthleteResponseDTO;
-import com.santanna.olympicgames.domain.dto.SportsDTO;
-import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
+import com.santanna.olympicgames.domain.dto.*;
+import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Sport;
 import com.santanna.olympicgames.exceptions.ValidationException;
 import com.santanna.olympicgames.service.AthleteService;
@@ -48,6 +46,15 @@ public class AtlheteController {
             List<SportsDTO> athletes = athleteService.findAthletesBySport(sport);
             return ResponseEntity.ok(athletes);
         } catch (ValidationException exception) {
+            return ResponseEntity.badRequest().build();
+        }
+    }
+    @GetMapping("/sport-by-country")
+    public ResponseEntity<List<CountryAndSportsDTO>> sportByCountry(@RequestParam Country country){
+        try {
+        List<CountryAndSportsDTO> sportsByCountry = athleteService.SportsByCountry(country);
+        return ResponseEntity.ok(sportsByCountry);
+        }catch (ValidationException exception){
             return ResponseEntity.badRequest().build();
         }
     }
