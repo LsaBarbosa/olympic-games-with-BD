@@ -10,4 +10,6 @@ public record AthleteResponseDTO (String name, Integer weight, double height, in
     public AthleteResponseDTO(Athlete athlete) {
         this(athlete.getName(),athlete.getWeight(),athlete.getHeight(),athlete.getAge(),athlete.getContinent(),athlete.getCountry(),athlete.getGender(),athlete.getSport());
     }
+
+
 }
