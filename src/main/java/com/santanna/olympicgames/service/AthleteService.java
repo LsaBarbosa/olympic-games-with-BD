@@ -1,10 +1,8 @@
 package com.santanna.olympicgames.service;
 
-import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
-import com.santanna.olympicgames.domain.dto.AthleteResponseDTO;
-import com.santanna.olympicgames.domain.dto.SportsDTO;
-import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
+import com.santanna.olympicgames.domain.dto.*;
 import com.santanna.olympicgames.domain.entity.Athlete;
+import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Sport;
 import com.santanna.olympicgames.exceptions.ValidationException;
 import com.santanna.olympicgames.repository.AthleteRepository;
@@ -16,7 +14,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AthleteService {
@@ -69,8 +68,24 @@ public class AthleteService {
             String sportUpcase = sport.name().toUpperCase();
             return athleteRepository.findBySport(sportUpcase);
         } catch (MethodArgumentTypeMismatchException exception) {
-            throw new ValidationException("The ''sport'' must have capital letters" + exception.getMessage());
+            throw new ValidationException("The ''sport'' must have capital letters");
         }
+    }
+
+    public List<CountryAndSportsDTO> SportsByCountry(Country country) {
+       try {
+        List<Sport> sports = athleteRepository.findSportsByCountry(country.name())
+                .orElseThrow(() -> new ValidationException("Country not Found"));
+
+        Map<Country, List<Sport>> sportsByCountryMap = new HashMap<>();
+        sportsByCountryMap.put(country, sports);
+
+        return sportsByCountryMap.entrySet().stream()
+                .map(entry -> new CountryAndSportsDTO(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+       }catch (Exception ex){
+           throw new ValidationException("Country not found");
+       }
     }
 }
 

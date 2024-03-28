@@ -4,9 +4,11 @@ import com.santanna.olympicgames.domain.entity.Athlete;
 import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Sport;
 
-public record CountryAndSportsDTO(Country country, Sport sport) {
+import java.util.List;
 
-    public CountryAndSportsDTO(Athlete athlete){
-        this(athlete.getCountry(),athlete.getSport());
+public record CountryAndSportsDTO(Country country,  List<Sport> sport) {
+
+    public CountryAndSportsDTO(Country country, Sport sport) {
+        this(country, List.of(sport));
     }
 }

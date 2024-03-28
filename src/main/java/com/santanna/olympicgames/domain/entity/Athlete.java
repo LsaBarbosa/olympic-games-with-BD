@@ -62,12 +62,6 @@ public class Athlete {
 
     }
 
-    public Athlete(CountryAndSportsDTO dto) {
-        this.country = dto.country();
-        this.sport = dto.sport();
-
-    }
-
     public Athlete(AthleteResponseDTO dto) {
         this.name = dto.name();
         this.age = dto.age();
