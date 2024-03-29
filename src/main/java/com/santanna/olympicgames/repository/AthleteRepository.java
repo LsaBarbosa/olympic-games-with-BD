@@ -18,5 +18,9 @@ public interface AthleteRepository extends JpaRepository<Athlete, Long> {
 
     @Query("SELECT DISTINCT a.sport FROM Athlete a WHERE UPPER(a.country) = UPPER(:country)")
     Optional<List<Sport>> findSportsByCountry(@Param("country") String country);
+
+    @Query("SELECT DISTINCT a.sport FROM Athlete a WHERE UPPER(a.country) = UPPER(:country)")
+    Optional<List<Athlete>> findAtlheteByCountry(@Param("country") String country);
+
 }
 
