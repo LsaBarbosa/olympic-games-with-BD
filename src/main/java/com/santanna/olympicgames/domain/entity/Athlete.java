@@ -45,8 +45,10 @@ public class Athlete {
     @Enumerated(EnumType.STRING)
     private Country country;
     @Enumerated(EnumType.STRING)
+    //usar cache (desafio)
     private Gender gender;
     @Enumerated(EnumType.STRING)
+    //usar cache (desafio)
     private Sport sport;
 
     public Athlete(AthleteRequestDTO dto) {

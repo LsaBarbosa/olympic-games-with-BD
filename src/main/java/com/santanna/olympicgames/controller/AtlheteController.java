@@ -1,11 +1,9 @@
 package com.santanna.olympicgames.controller;
 
 import com.santanna.olympicgames.domain.dto.*;
-import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Sport;
 import com.santanna.olympicgames.exceptions.ValidationException;
 import com.santanna.olympicgames.service.AthleteService;
-import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,31 +30,26 @@ public class AtlheteController {
 
     @GetMapping("/{id}")
     public ResponseEntity<AthleteRequestDTO> getAthleteById(@PathVariable Long id) {
-        try {
-            AthleteRequestDTO athlete = athleteService.getAthleteById(id);
-            return ResponseEntity.ok(athlete);
-        } catch (ValidationException exception) {
-            return ResponseEntity.notFound().build();
-        }
+
+        AthleteRequestDTO athlete = athleteService.getAthleteById(id);
+        return ResponseEntity.ok(athlete);
+
     }
 
     @GetMapping("/sport/all")
-    public ResponseEntity<List<SportsDTO>> getAthletesBySport(@RequestParam Sport sport) {
-        try {
-            List<SportsDTO> athletes = athleteService.findAthletesBySport(sport);
-            return ResponseEntity.ok(athletes);
-        } catch (ValidationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<List<SportsDTO>> getAthletesBySport(@RequestParam String sport) {
+
+        List<SportsDTO> athletes = athleteService.findAthletesBySport(sport);
+        return ResponseEntity.ok(athletes);
+
     }
+
     @GetMapping("/sport-by-country")
-    public ResponseEntity<List<CountryAndSportsDTO>> sportByCountry(@RequestParam Country country){
-        try {
-        List<CountryAndSportsDTO> sportsByCountry = athleteService.SportsByCountry(country);
-        return ResponseEntity.ok(sportsByCountry);
-        }catch (ValidationException exception){
-            return ResponseEntity.badRequest().build();
-        }
+    public ResponseEntity<CountryAndSportsDTO> sportByCountry(@RequestParam String country) {
+
+        List<Sport> sportsByCountry = athleteService.sportsByCountry(country);
+        return ResponseEntity.ok(new CountryAndSportsDTO(country.toUpperCase(), sportsByCountry));
+
     }
 
     @PostMapping
@@ -74,18 +67,14 @@ public class AtlheteController {
     }
 
     @PutMapping
-    @Transactional
-    public ResponseEntity<AthleteResponseDTO> updateDataAthlete(@RequestBody @Valid UpdateAthleteDTO athleteDTO) {
-        try {
-            athleteService.updateAthlete(athleteDTO);
-            return ResponseEntity.ok().build();
-        } catch (ValidationException exception) {
-            return ResponseEntity.badRequest().build();
-        }
+
+    public ResponseEntity<String> updateDataAthlete(@RequestBody @Valid UpdateAthleteDTO athleteDTO) {
+        athleteService.updateAthlete(athleteDTO);
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/{id}")
-    @Transactional
+
     public ResponseEntity<AthleteRequestDTO> deleteAthlete(@PathVariable Long id) {
         try {
             athleteService.deleteAthlete(id);
