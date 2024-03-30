@@ -52,6 +52,13 @@ public class AtlheteController {
 
     }
 
+    @GetMapping("/sport-by-gender")
+    public ResponseEntity<List<GenderAthleteDTO>> getMaleAthletesBySport(@RequestParam Sport sport) {
+        List<GenderAthleteDTO> maleAthletes = athleteService.findMaleAthletesBySport(sport);
+        return ResponseEntity.ok( maleAthletes);
+    }
+
+
     @PostMapping
 
     public ResponseEntity<AthleteResponseDTO> creatAthlete(@RequestBody @Valid AthleteRequestDTO athleteDTO, UriComponentsBuilder uriBuilder) {
