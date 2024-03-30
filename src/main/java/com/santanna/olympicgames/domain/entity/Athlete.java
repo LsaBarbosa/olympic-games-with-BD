@@ -14,8 +14,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -74,6 +72,12 @@ public class Athlete {
         this.weight = dto.weight();
         this.height = dto.height();
 
+    } public Athlete(GenderAthleteDTO dto) {
+        this.name = dto.name();
+        this.age = dto.age();
+        this.country = dto.country();
+        this.gender = dto.gender();
+        this.sport = dto.sport();
     }
 
     public Athlete(SportsDTO dto) {

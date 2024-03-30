@@ -2,6 +2,7 @@ package com.santanna.olympicgames.service;
 
 import com.santanna.olympicgames.domain.dto.*;
 import com.santanna.olympicgames.domain.entity.Athlete;
+import com.santanna.olympicgames.domain.enums.Gender;
 import com.santanna.olympicgames.domain.enums.Sport;
 import com.santanna.olympicgames.exceptions.ValidationException;
 import com.santanna.olympicgames.repository.AthleteRepository;
@@ -75,6 +76,18 @@ public class AthleteService {
         return athleteRepository.findSportsByCountry(countryUpcase).orElseThrow(() -> new ValidationException(HttpStatusCode.valueOf(404), "Country not Found"));
     }
 
-
+    public List<GenderAthleteDTO> findMaleAthletesBySport(Sport sport) {
+        try {
+        return athleteRepository.findBySportAndGender(sport, Gender.MALE);
+        }catch (Exception exception){
+            throw new ValidationException(HttpStatusCode.valueOf(400),"Gender or Sports does not exist");
+        }
+    }   public List<GenderAthleteDTO> findFeMaleAthletesBySport(Sport sport) {
+        try {
+            return athleteRepository.findBySportAndGender(sport, Gender.FEMALE);
+        } catch (Exception exception) {
+            throw new ValidationException(HttpStatusCode.valueOf(400), "Gender or Sports does not exist");
+        }
+    }
 }
 
