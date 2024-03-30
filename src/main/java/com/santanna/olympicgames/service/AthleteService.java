@@ -23,7 +23,8 @@ public class AthleteService {
     private AthleteRepository athleteRepository;
 
     public Page<AthleteRequestDTO> getAllAthletes(Pageable page) {
-        return athleteRepository.findAll(page).map(AthleteRequestDTO::new);
+        return athleteRepository.findAll(page)
+                .map(AthleteRequestDTO::new);
     }
 
     public AthleteRequestDTO getAthleteById(Long id) {

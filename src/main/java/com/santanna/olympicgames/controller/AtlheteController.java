@@ -23,8 +23,8 @@ public class AtlheteController {
     private AthleteService athleteService;
 
     @GetMapping()
-    public ResponseEntity<Page<AthleteRequestDTO>> getAthletes(Pageable page) {
-        var athletesByPage = athleteService.getAllAthletes(page);
+    public ResponseEntity<Page<AthleteRequestDTO>> getAthletes( Pageable page) {
+        Page<AthleteRequestDTO> athletesByPage = athleteService.getAllAthletes(page);
         return ResponseEntity.ok(athletesByPage);
     }
 
@@ -55,22 +55,19 @@ public class AtlheteController {
     @GetMapping("/sport-by-gender")
     public ResponseEntity<List<GenderAthleteDTO>> getMaleAthletesBySport(@RequestParam Sport sport) {
         List<GenderAthleteDTO> maleAthletes = athleteService.findMaleAthletesBySport(sport);
-        return ResponseEntity.ok( maleAthletes);
+        return ResponseEntity.ok(maleAthletes);
     }
 
 
     @PostMapping
 
     public ResponseEntity<AthleteResponseDTO> creatAthlete(@RequestBody @Valid AthleteRequestDTO athleteDTO, UriComponentsBuilder uriBuilder) {
-        try {
-            AthleteResponseDTO athlete = athleteService.createAthlete(athleteDTO);
-            String url = "/athletes/{id}";
-            URI uri = uriBuilder.path(url).buildAndExpand(athleteDTO.id()).toUri();
-            return ResponseEntity.created(uri).body(athlete);
-        } catch (ValidationException ex) {
-            return ResponseEntity.badRequest().build();
 
-        }
+        AthleteResponseDTO athlete = athleteService.createAthlete(athleteDTO);
+        String url = "/athletes/{id}";
+        URI uri = uriBuilder.path(url).buildAndExpand(athleteDTO.id()).toUri();
+        return ResponseEntity.created(uri).body(athlete);
+
     }
 
     @PutMapping
