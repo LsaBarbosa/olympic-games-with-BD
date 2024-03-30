@@ -23,7 +23,7 @@ public class AtlheteController {
     private AthleteService athleteService;
 
     @GetMapping()
-    public ResponseEntity<Page<AthleteRequestDTO>> getAthletes( Pageable page) {
+    public ResponseEntity<Page<AthleteRequestDTO>> getAthletes(Pageable page) {
         Page<AthleteRequestDTO> athletesByPage = athleteService.getAllAthletes(page);
         return ResponseEntity.ok(athletesByPage);
     }
@@ -33,29 +33,6 @@ public class AtlheteController {
 
         AthleteRequestDTO athlete = athleteService.getAthleteById(id);
         return ResponseEntity.ok(athlete);
-
-    }
-
-    @GetMapping("/sport/all")
-    public ResponseEntity<List<SportsDTO>> getAthletesBySport(@RequestParam String sport) {
-
-        List<SportsDTO> athletes = athleteService.findAthletesBySport(sport);
-        return ResponseEntity.ok(athletes);
-
-    }
-
-    @GetMapping("/sport-by-country")
-    public ResponseEntity<CountryAndSportsDTO> sportByCountry(@RequestParam String country) {
-
-        List<Sport> sportsByCountry = athleteService.sportsByCountry(country);
-        return ResponseEntity.ok(new CountryAndSportsDTO(country.toUpperCase(), sportsByCountry));
-
-    }
-
-    @GetMapping("/sport-by-gender")
-    public ResponseEntity<List<GenderAthleteDTO>> getMaleAthletesBySport(@RequestParam Sport sport) {
-        List<GenderAthleteDTO> maleAthletes = athleteService.findMaleAthletesBySport(sport);
-        return ResponseEntity.ok(maleAthletes);
     }
 
 
