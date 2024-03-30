@@ -63,32 +63,6 @@ public class AthleteService {
 
     }
 
-    public List<SportsDTO> findAthletesBySport(String sport) {
-        try {
-            String sportUpcase = sport.toUpperCase();
-            return athleteRepository.findBySport(sportUpcase);
-        } catch (Exception exception) {
-            throw new ValidationException(HttpStatusCode.valueOf(404), "Sport not found");
-        }
-    }
 
-    public List<Sport> sportsByCountry(String country) {
-        String countryUpcase = country.toUpperCase();
-        return athleteRepository.findSportsByCountry(countryUpcase).orElseThrow(() -> new ValidationException(HttpStatusCode.valueOf(404), "Country not Found"));
-    }
-
-    public List<GenderAthleteDTO> findMaleAthletesBySport(Sport sport) {
-        try {
-        return athleteRepository.findBySportAndGender(sport, Gender.MALE);
-        }catch (Exception exception){
-            throw new ValidationException(HttpStatusCode.valueOf(400),"Gender or Sports does not exist");
-        }
-    }   public List<GenderAthleteDTO> findFeMaleAthletesBySport(Sport sport) {
-        try {
-            return athleteRepository.findBySportAndGender(sport, Gender.FEMALE);
-        } catch (Exception exception) {
-            throw new ValidationException(HttpStatusCode.valueOf(400), "Gender or Sports does not exist");
-        }
-    }
 }
 
