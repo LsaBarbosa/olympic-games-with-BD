@@ -4,7 +4,6 @@ import com.santanna.olympicgames.domain.dto.CountryAndSportsDTO;
 import com.santanna.olympicgames.domain.dto.GenderAthleteDTO;
 import com.santanna.olympicgames.domain.dto.SportsDTO;
 import com.santanna.olympicgames.domain.enums.Sport;
-import com.santanna.olympicgames.service.AthleteService;
 import com.santanna.olympicgames.service.SportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -38,9 +37,16 @@ public class SportController {
     }
 
     @GetMapping("/gender")
-    public ResponseEntity<List<GenderAthleteDTO>> getMaleAthletesBySport(@RequestParam Sport sport, String gender) {
-        String genderUperCase = gender.toUpperCase();
-        List<GenderAthleteDTO> maleAthletes = sportService.findGenderAthletesBySport(sport,genderUperCase);
-        return ResponseEntity.ok(maleAthletes);
+    public ResponseEntity<List<GenderAthleteDTO>> getAthletesByGenderAndSport(@RequestParam String sport, String gender) {
+
+        List<GenderAthleteDTO> athletes = sportService.findGenderAthletesBySport(sport, gender);
+        return ResponseEntity.ok(athletes);
+    }
+
+    @GetMapping("/gender-country")
+    public ResponseEntity<List<GenderAthleteDTO>> findByGenderAndCoutryAndSport(@RequestParam String sport, String gender, String country) {
+
+        List<GenderAthleteDTO> athletes = sportService.findByGenderAndCoutryAndSport(sport, gender, country);
+        return ResponseEntity.ok(athletes);
     }
 }
