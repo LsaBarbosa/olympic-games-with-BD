@@ -9,6 +9,8 @@ import com.santanna.olympicgames.repository.AthleteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +24,7 @@ public class AthleteService {
     @Autowired
     private AthleteRepository athleteRepository;
 
-    public Page<AthleteRequestDTO> getAllAthletes(Pageable page) {
+    public Page<AthleteRequestDTO> getAllAthletes( Pageable page) {
         return athleteRepository.findAll(page)
                 .map(AthleteRequestDTO::new);
     }

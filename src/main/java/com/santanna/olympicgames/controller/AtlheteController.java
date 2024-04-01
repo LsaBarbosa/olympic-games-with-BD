@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -23,7 +25,7 @@ public class AtlheteController {
     private AthleteService athleteService;
 
     @GetMapping()
-    public ResponseEntity<Page<AthleteRequestDTO>> getAthletes(Pageable page) {
+    public ResponseEntity<Page<AthleteRequestDTO>> getAthletes(@PageableDefault(size = 10, page = 0, sort = "name",direction = Sort.Direction.ASC) Pageable page) {
         Page<AthleteRequestDTO> athletesByPage = athleteService.getAllAthletes(page);
         return ResponseEntity.ok(athletesByPage);
     }
