@@ -1,11 +1,9 @@
 package com.santanna.olympicgames.service;
 
 import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
-import com.santanna.olympicgames.domain.dto.CountryAndSportsDTO;
 import com.santanna.olympicgames.domain.dto.GenderAthleteDTO;
 import com.santanna.olympicgames.domain.dto.SportsDTO;
 import com.santanna.olympicgames.domain.entity.Athlete;
-import com.santanna.olympicgames.domain.enums.Continent;
 import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Gender;
 import com.santanna.olympicgames.domain.enums.Sport;
@@ -36,8 +34,8 @@ class SportServiceTest {
     @DisplayName("Must find athlete by sport")
     public void mustFindAthletesBySport() {
         String sport = "football";
-        Athlete athlete1 = new Athlete(new AthleteRequestDTO(1L, "John Doe", 75, 180.5, 25, Continent.EUROPE, Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL));
-        Athlete athlete2 = new Athlete(new AthleteRequestDTO(2L, "Jane Smith", 60, 170.0, 30, Continent.NORTH_AMERICA, Country.CANADA, Gender.FEMALE, Sport.FOOTBALL));
+        Athlete athlete1 = new Athlete(new AthleteRequestDTO(1L, "John Doe", 75, 180.5, 25, Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL));
+        Athlete athlete2 = new Athlete(new AthleteRequestDTO(2L, "Jane Smith", 60, 170.0, 30,  Country.CANADA, Gender.FEMALE, Sport.FOOTBALL));
 
         List<SportsDTO> expectedAthletes = List.of(new SportsDTO(athlete1), new SportsDTO(athlete2));
 
