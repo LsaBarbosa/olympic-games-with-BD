@@ -127,5 +127,5 @@ class AthleteServiceTest {
         verify(athleteRepository, times(1)).deleteById(athleteId);
     }
 
-    
+
 }
