@@ -26,6 +26,7 @@ public class Athlete {
 
     @NotNull
     @Size(min = 5, max = 65)
+
     private String name;
 
     @Min(40)
