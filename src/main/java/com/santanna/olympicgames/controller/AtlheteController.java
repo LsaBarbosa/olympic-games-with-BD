@@ -40,7 +40,7 @@ public class AtlheteController {
 
     @PostMapping
 
-    public ResponseEntity<AthleteResponseDTO> creatAthlete(@RequestBody @Valid AthleteRequestDTO athleteDTO, UriComponentsBuilder uriBuilder) {
+    public ResponseEntity<AthleteResponseDTO> createAthlete(@RequestBody @Valid AthleteRequestDTO athleteDTO, UriComponentsBuilder uriBuilder) {
 
         AthleteResponseDTO athlete = athleteService.createAthlete(athleteDTO);
         String url = "/athletes/{id}";

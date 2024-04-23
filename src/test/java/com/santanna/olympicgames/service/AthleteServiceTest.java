@@ -4,7 +4,6 @@ import com.santanna.olympicgames.domain.dto.AthleteRequestDTO;
 import com.santanna.olympicgames.domain.dto.AthleteResponseDTO;
 import com.santanna.olympicgames.domain.dto.UpdateAthleteDTO;
 import com.santanna.olympicgames.domain.entity.Athlete;
-import com.santanna.olympicgames.domain.enums.Continent;
 import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Gender;
 import com.santanna.olympicgames.domain.enums.Sport;
@@ -15,6 +14,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -37,11 +38,14 @@ class AthleteServiceTest {
     @InjectMocks
     private AthleteService athleteService;
 
+    @Autowired
+    private JacksonTester<AthleteRequestDTO> athleteDTO;
+
     @Test
     @DisplayName("Must Create Athlete")
     public void mustCreateAthlete() {
-        AthleteRequestDTO athleteDTO = new AthleteRequestDTO(null, "John Doe", 75, 180.5, 25, Continent.EUROPE, Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL);
-        AthleteResponseDTO expectedAthlete = new AthleteResponseDTO("John Doe", 75, 180.5, 25, Continent.EUROPE, Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL);
+        AthleteRequestDTO athleteDTO = new AthleteRequestDTO(null, "John Doe", 75, 180.5, 25,   Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL);
+        AthleteResponseDTO expectedAthlete = new AthleteResponseDTO("John Doe", 75, 180.5, 25,   Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL);
 
         given(athleteRepository.save(any(Athlete.class))).willReturn(new Athlete(athleteDTO));
 
@@ -53,8 +57,8 @@ class AthleteServiceTest {
     @Test
     @DisplayName("Must Update Athlete")
     public void mustUpdateAthlete() {
-        UpdateAthleteDTO updateDTO = new UpdateAthleteDTO(1L, "John Doe", 26, 181.0, 76, Continent.EUROPE, Country.UNITED_STATES, Sport.FOOTBALL);
-        Athlete originalAthlete = new Athlete(new AthleteRequestDTO(1L, "John Doe", 25, 180.5, 75, Continent.EUROPE, Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL));
+        UpdateAthleteDTO updateDTO = new UpdateAthleteDTO(1L, "John Doe", 26, 181.0, 76,   Country.UNITED_STATES, Sport.FOOTBALL);
+        Athlete originalAthlete = new Athlete(new AthleteRequestDTO(1L, "John Doe", 25, 180.5, 75,   Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL));
 
         given(athleteRepository.findById(updateDTO.id())).willReturn(Optional.of(originalAthlete));
 
@@ -64,7 +68,7 @@ class AthleteServiceTest {
         assertThat(originalAthlete.getAge()).isEqualTo(26);
         assertThat(originalAthlete.getHeight()).isEqualTo(181.0);
         assertThat(originalAthlete.getWeight()).isEqualTo(76);
-        assertThat(originalAthlete.getContinent()).isEqualTo(Continent.EUROPE);
+
         assertThat(originalAthlete.getCountry()).isEqualTo(Country.UNITED_STATES);
         assertThat(originalAthlete.getSport()).isEqualTo(Sport.FOOTBALL);
     }
@@ -73,7 +77,7 @@ class AthleteServiceTest {
     @DisplayName("Must Get Athlete By Id")
     public void mustGetAthleteById() {
         Long athleteId = 1L;
-        Athlete athlete = new Athlete(new AthleteRequestDTO(athleteId, "John Doe", 75, 180.5, 25, Continent.EUROPE, Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL));
+        Athlete athlete = new Athlete(new AthleteRequestDTO(athleteId, "John Doe", 75, 180.5, 25,  Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL));
 
         given(athleteRepository.findById(athleteId)).willReturn(Optional.of(athlete));
 
@@ -84,7 +88,7 @@ class AthleteServiceTest {
         assertThat(result.weight()).isEqualTo(75);
         assertThat(result.height()).isEqualTo(180.5);
         assertThat(result.age()).isEqualTo(25);
-        assertThat(result.continent()).isEqualTo(Continent.EUROPE);
+
         assertThat(result.country()).isEqualTo(Country.UNITED_STATES);
         assertThat(result.gender()).isEqualTo(Gender.MALE);
         assertThat(result.sport()).isEqualTo(Sport.FOOTBALL);
@@ -95,8 +99,8 @@ class AthleteServiceTest {
     @DisplayName("Must Get All Athlete")
     public void mustGetAllAthletes() {
         List<Athlete> athletes = new ArrayList<>();
-        athletes.add(new Athlete(new AthleteRequestDTO(1L, "John Doe", 75, 180.5, 25, Continent.EUROPE, Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL)));
-        athletes.add(new Athlete(new AthleteRequestDTO(2L, "Jane Smith", 60, 170.0, 30, Continent.NORTH_AMERICA, Country.CANADA, Gender.FEMALE, Sport.BASKETBALL)));
+        athletes.add(new Athlete(new AthleteRequestDTO(1L, "John Doe", 75, 180.5, 25,   Country.UNITED_STATES, Gender.MALE, Sport.FOOTBALL)));
+        athletes.add(new Athlete(new AthleteRequestDTO(2L, "Jane Smith", 60, 170.0, 30,  Country.CANADA, Gender.FEMALE, Sport.BASKETBALL)));
 
         Page<Athlete> pagedAthletes = new PageImpl<>(athletes);
 

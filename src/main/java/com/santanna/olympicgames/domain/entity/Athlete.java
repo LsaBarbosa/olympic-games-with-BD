@@ -1,7 +1,6 @@
 package com.santanna.olympicgames.domain.entity;
 
 import com.santanna.olympicgames.domain.dto.*;
-import com.santanna.olympicgames.domain.enums.Continent;
 import com.santanna.olympicgames.domain.enums.Country;
 import com.santanna.olympicgames.domain.enums.Gender;
 import com.santanna.olympicgames.domain.enums.Sport;
@@ -27,6 +26,7 @@ public class Athlete {
 
     @NotNull
     @Size(min = 5, max = 65)
+
     private String name;
 
     @Min(40)
@@ -38,8 +38,6 @@ public class Athlete {
     @Min(14)
     private Integer age;
 
-    @Enumerated(EnumType.STRING)
-    private Continent continent;
     @Enumerated(EnumType.STRING)
     private Country country;
     @Enumerated(EnumType.STRING)
@@ -53,7 +51,7 @@ public class Athlete {
         this.id = dto.id();
         this.name = dto.name();
         this.age = dto.age();
-        this.continent = dto.continent();
+
         this.country = dto.country();
         this.gender = dto.gender();
         this.sport = dto.sport();
@@ -65,7 +63,7 @@ public class Athlete {
     public Athlete(AthleteResponseDTO dto) {
         this.name = dto.name();
         this.age = dto.age();
-        this.continent = dto.continent();
+
         this.country = dto.country();
         this.gender = dto.gender();
         this.sport = dto.sport();
@@ -100,9 +98,7 @@ public class Athlete {
         if (data.weight() != null) {
             this.weight = data.weight();
         }
-        if (data.continent() != null) {
-            this.continent = data.continent();
-        }
+
         if (data.country() != null) {
             this.country = data.country();
         }
